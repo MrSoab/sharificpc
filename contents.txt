@@ -29,7 +29,7 @@ hld.cpp	Heavy-Light Decomposition
 edmonds.cpp	Maximum matching - Edmond's blossom
 bicon.cpp	Biconnected components
 Dinic.cpp	Flow - Dinic
-mcmf.cpp    Min Cost Max FLow - dinic spfa
+mcmf.cpp	Min Cost Max FLow - dinic spfa
 hungarian.cpp	Maximum weighted matching - Hungarian
 EarDecomposition.txt	Ear decomposition
 stoer-wagner.cpp	Stoer-Wagner min cut $O(n^3)$

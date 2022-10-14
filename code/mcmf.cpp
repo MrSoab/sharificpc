@@ -1,7 +1,3 @@
-# include<bits/stdc++.h>
-
-using namespace std;
-// tested once
 struct MinCostMaxFlow {
     struct Edge {
         int v , u;
@@ -102,9 +98,3 @@ struct MinCostMaxFlow {
         return make_pair(flow , cost);
     }
 };
-
-int main() {
-
-    return 0;
-}
-
