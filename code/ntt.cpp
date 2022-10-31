@@ -1,48 +1,41 @@
-const int MOD = 998244353;
-const int LG = 16; // IF YOU WANT TO CONVOLVE TWO ARRAYS OF LENGTH N AND M CHOOSE LG IN SUCH A WAY THAT 2^LG > n + m
-const int MAX = (1 << LG);
-const int ROOT = 44759; // ENSURE THAT ROOT^2^(LG - 1) = MOD - 1
-int bpow(int a, int b){
-	int ans = 1;
-	while (b){
-		if (b & 1)
-			ans = 1LL * ans * a % MOD;
-		b >>= 1;
-		a = 1LL * a * a % MOD;
-	}
-	return ans;
+const int LG = 21, N = 1 << LG, Mod = 998244353;
+int rev[N + 5];
+inline int Power(int a, int b)
+{
+    int ret = 1;
+    for (; b; b >>= 1, a = 1ll * a * a % Mod)
+        if (b & 1) ret = 1ll * ret * a % Mod;
+    return (ret);
 }
-void ntt(int *a, bool inv){
-	for (int mask = 0; mask < MAX; mask++){
-		int rev = 0;
-		for (int i = 0; i < LG; i++)
-			if ((1 << i) & mask)
-				rev |= (1 << (LG - 1 - i));
-		if (mask < rev)
-			swap(a[mask], a[rev]);
-	}
-	for (int len = 2; len <= MAX; len *= 2){
-		int wn = bpow(ROOT, MAX / len);
-		if (inv)
-			wn = bpow(wn, MOD - 2);
-		for (int i = 0; i < MAX; i += len){
-			int w = 1;
-			for (int j = 0; j < len / 2; j++){
-				int l = a[i + j];
-				int r = 1LL * w * a[i + j + len / 2] % MOD;
-				a[i + j] = (l + r);
-				a[i + j + len / 2] = l - r + MOD;
-				if (a[i + j] >= MOD)
-					a[i + j] -= MOD;
-				if (a[i + j + len / 2] >= MOD)
-					a[i + j + len / 2] -= MOD;
-				w = 1LL * w * wn % MOD;
-			}
-		}
-	}
-	if (inv){
-		int x = bpow(MAX, MOD - 2);
-		for (int i = 0; i < MAX; i++)
-			a[i] = 1LL * a[i] * x % MOD;
-	}
+inline void NTT(int * F, int n, bool inv)
+{
+    int d = LG - __builtin_ctz(n);
+    for (int i = 0; i < n; i++)
+        if (i < (rev[i] >> d))
+            swap(F[i], F[(rev[i] >> d)]);
+    for (int len = 1; len < n; len <<= 1)
+    {
+        int wn = Power(3, (Mod - 1) / (len << 1));
+        if (inv) wn = Power(wn, Mod - 2);
+        for (int i = 0; i < n; i += (len << 1))
+            for (int j = i, w = 1; j < i + len; j++)
+            {
+                int a = 1ll * F[j + len] * w % Mod;
+                F[j + len] = F[j] - a; F[j] += a;
+                if (F[j + len] < 0)
+                    F[j + len] += Mod;
+                if (F[j] >= Mod)
+                    F[j] -= Mod;
+                w = 1ll * w * wn % Mod;
+            }
+    }
+    if (inv)
+        for (int i = 0, rn = Power(n, Mod - 2); i < n; i++)
+            F[i] = 1ll * F[i] * rn % Mod;
+}
+int n, k, dp[N];
+int main()
+{
+    for (int i = 0; i < N; i++)
+        rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (LG - 1));
 }

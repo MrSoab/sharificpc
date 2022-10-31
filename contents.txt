@@ -23,13 +23,12 @@ treap.cpp	Treap
 treap-full.cpp	Treap Full
 link-cut.cpp	Link-cut Tree
 DCHT3.cpp	Dynimic convex hull
-hld.cpp	Heavy-Light Decomposition
 
 [Graph]
 edmonds.cpp	Maximum matching - Edmond's blossom
 bicon.cpp	Biconnected components
 Dinic.cpp	Flow - Dinic
-mcmf.cpp	Min Cost Max FLow - dinic spfa
+mcmf.cpp	Min Cost Max Flow - dinic spfa
 hungarian.cpp	Maximum weighted matching - Hungarian
 EarDecomposition.txt	Ear decomposition
 stoer-wagner.cpp	Stoer-Wagner min cut $O(n^3)$
